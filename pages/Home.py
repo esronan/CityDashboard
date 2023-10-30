@@ -46,6 +46,7 @@ def process_yearly_data(data):
     data["recycling_pct"] .replace('na', np.nan, inplace=True)
     data["recycling_pct"] = data["recycling_pct"].astype(float)
     data['date'] = pd.to_datetime(data['date']).dt.year
+    data['population_density'] = data['population_size']/data['area_size']
     return data
 #mean salary and median salary still problematic
 
@@ -120,7 +121,7 @@ if st.checkbox('Show processed data'):
 
 # Define coloums of interest for widgets
 col_of_int = ['median_salary', 'mean_salary', 'life_satisfaction',
-       'recycling_pct', 'population_size', 'number_of_jobs',    
+       'recycling_pct', 'population_size', 'population_density', 'number_of_jobs',    
        'area_size', 'no_of_houses', 'average_price', 'distance_to_centre']
 
 #Widget for user to choose areas to compare
@@ -153,48 +154,6 @@ create_heatmap(merged_data, col_of_int)
 st.write("As can be seen here, a few variables like population size, number of jobs, area size and number of houses are understandably all very highly correlated. Mean salary and median salary also have a high correlation, though not as high - their difference gives important information on the spread of incomes (and hence inequality).")
 
 
-##### REGRESSION MODEL ######
-
-st.subheader("Modelling house prices with regression")
-
-data_to_model = merged_data
-data_to_model = data_to_model[data_to_model["borough_flag"]==1]
-data_to_model = data_to_model.dropna()
-
-# Define dependent variable
-response_var = "average_price"
-Y = data_to_model[response_var]
-
-# Define independent variables
-predict_vars = ['life_satisfaction', 'median_salary',
-        'recycling_pct', 'population_size', 'no_of_crimes',
-        'area_size', 'no_of_houses'
-       ]
-
-# Adding a constant to the model (intercept)
-
-X = sm.add_constant(data_to_model[predict_vars])
-
-# Fit the regression model
-model = sm.OLS(np.asarray(Y), np.asarray(X)).fit()
-
-# Print the summary of regression
-#st.write(model.summary())
-summary = model.summary2().tables[0]
-summary = summary.iloc[1:]
-summary.columns = ["Attribute", "Value", "Attribute ", "Value "]
-summary.index = summary.iloc[:,0]
-summary = summary.iloc[:, 1:]
-st.write(summary)
-st.write("The model explains 62.8% of the variance in the dependent variable (housing prices), which suggests a moderate degree of predictive power of the variables. \n\nAll of the predictors seem to be statistically significant with p-values less than 0.05\n\nThe model diagnostics indicate potential issues with the normality of residuals, given the low p-values for the Omnibus and Jarque-Bera tests, and the high Kurtosis value. The condition number is quite high, suggesting potential multicollinearity issues.")
-
-##
-coefficients = model.summary2().tables[1]
-coefficients.index = ["constant"] + predict_vars
-st.write(coefficients)
-st.write("Life satisfaction seems to have a disproportional effect on the model, but this can be explained by the minimal variance of the variable. Mean salary, strangely, is modelled as having a negative effect on average house prices . This could be explained by colinnearity with another varibale")
-
-
 ##### MAP #####
 st.subheader("Visualising variation on a map")
 map_col = st.selectbox("Pick a variable", col_of_int)
@@ -220,10 +179,52 @@ df = df[df["area"] != "city of london"]
 #st.write(df)
 st.map(df, size=type_grad)
 
+##### REGRESSION MODEL ######
+
+# st.subheader("Modelling house prices with regression")
+# st.write("Before modelling with regression, we applied a few steps of preprocessing. First, all columns with non-numerical data was deleted. Then all rows with missing data were deleted (data integrity was not affected - data was missing only when collection procedures had not been set up - e.g. life satisfaction was first collected in 2011).")
+# data_to_model = merged_data
+# data_to_model = data_to_model[data_to_model["borough_flag"]==1]
+# data_to_model = data_to_model.dropna()
+
+# # Define dependent variable
+# response_var = "average_price"
+# Y = data_to_model[response_var]
+
+# # Define independent variables
+# predict_vars = ['median_salary',
+#         'population_density', 'no_of_crimes',
+#         'distance_to_centre'
+#        ] 
+# # 'life_satisfaction', 'recycling_pct', 
+# # Adding a constant to the model (intercept)
+
+# X = sm.add_constant(data_to_model[predict_vars])
+
+# # Fit the regression model
+# model = sm.OLS(np.asarray(Y), np.asarray(X)).fit()
+
+# # Print the summary of regression
+# #st.write(model.summary())
+# summary = model.summary2().tables[0]
+# summary = summary.iloc[1:]
+# summary.columns = ["Attribute", "Value", "Attribute ", "Value "]
+# summary.index = summary.iloc[:,0]
+# summary = summary.iloc[:, 1:]
+# st.write(summary)
+# st.write("The model explains 50.4% of the variance in the dependent variable (housing prices), which suggests a moderate degree of predictive power of the variables. \n\nThe F ratio is far above 1, meaning that there is much more signal to noise in the model, and this is validated with a p-value below 0.05.")
+
+# ##
+# coefficients = model.summary2().tables[1]
+# coefficients.index = ["constant"] + predict_vars
+# st.write(coefficients)
+# st.write("Life satisfaction seems to have a disproportional effect on the model, but this can be explained by the minimal variance of the variable. Mean salary, strangely, is modelled as having a negative effect on average house prices. This could be explained by collinnearity with another variable")
+
+
 ##### SOURCE ######
 
 if st.button('Source'):
-     st.write('Data drawn from Justinas Cirtautas\' dataset "Housing in London", in turn drawing from London Datastore \n\nLink: https://www.kaggle.com/datasets/justinas/housing-in-london')
+     st.write('Data drawn from Justinas Cirtautas\' dataset "Housing in London", in turn drawing from London Datastore, as well as the Wikipedia page on London boroughs.\n\nLinks: \nhttps://www.kaggle.com/datasets/justinas/housing-in-london\nhttps://en.wikipedia.org/wiki/List_of_London_boroughs')
 else: 
     ""
 
