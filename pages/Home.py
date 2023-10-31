@@ -8,6 +8,13 @@ import matplotlib.pyplot as plt
 import requests
 import re
 from geopy.distance import geodesic
+import pandas as pd
+from sqlalchemy import create_engine
+from google.cloud.sql.connector import Connector, IPTypes
+import pymysql
+import os
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/Administrator/Documents/GitHub/StreamlitApp/data/lyrical-edition-403712-f99f5253b775.json"
+#
 
 st.set_option('deprecation.showPyplotGlobalUse', False) #Turn off deprecation warnings for heatmap visualisation
 
@@ -113,6 +120,51 @@ merged_data = merged_data.merge(df, on="area", how='left')
 if st.checkbox('Show processed data'):
     st.subheader('Processed data')
     st.write(merged_data)
+
+
+##### SQL UPLOAD #####
+
+# Database connection details
+db_user = "teststreamlitinstancebluedabba"
+db_pass = "GOmooncow123!"
+db_name = "your_database_name"
+db_instance = "lyrical-edition-403712:europe-west2:teststreamlitinstancebluedabba"
+
+connector = Connector() 
+# # Create SQLAlchemy engine
+# def getconn(instance_connection_name):
+#     conn = connector.connect(
+#         db_instance,
+#         "pymysql",
+#         user=db_user,
+#         password=db_pass,
+#         #db=db_name,
+#     )
+#     return conn
+
+# pool = create_engine(
+#     "mysql+pymysql://", 
+#     creator=getconn
+# )
+def init_connection_engine():
+    def getconn() -> connector.connect:
+        conn: connector.connect = connector.connect(
+            db_instance,
+            "pymysql",
+            user=db_user,
+            password=db_pass,
+            db=db_name,
+            ip_type=IPTypes.PUBLIC,
+        )
+        return conn
+    
+    engine = create_engine("mysql+pymysql://", creator=getconn)
+    return engine
+
+engine = init_connection_engine()
+
+# Upload DataFrame to SQL
+merged_data.to_sql('processed data', con=engine, if_exists='replace', index=False)
 
 ##### DATA EXPLORATION #####
 

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "lyrical-edition-403712",
+  "private_key_id": "f99f5253b77518e73504390cac891420fdd56e67",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDl+GsYoxjI+bkV\noftQQwTdVKcFqi1ZGpF0rEWeREpJ/hkm0WGUT2h66a0VC7C++1DBykwfDcFIopar\n75HYmN2C/Gz7dsH/92K1AGsEBk3zD2oXpIQkfSS5hJyzGxGCIHdp+QdV2d9CAPfJ\nHVcIdgt1ar3lXykMyLstiPKFdOPjVJTVdhf1jnji1v6impd12XuFRSsaquy9NkA0\nW+vAcJAkzzvqQ2WVy0Gpa1OcfXOhdDvTQutK6eh/Vf+VEPqua146uhdQldxp7OYA\ndw+0Dy6PHusEq5bA/DpxWgNQKtIhnqzr5Eclmex7TF78UHpGx9Kk7mePl22IAEQE\niCkorbtrAgMBAAECggEAAtaubRHQh1aKqQlPF/5AOi0qCtZ4FAzfg8Ib8ahyd9t0\nd3eVm+1R4v9mLrJgTL3bgtRo6ugZZEbaYdDQQ/7j8C8i6QTPv6klHkNkOXA3Jm71\n/1cLk6DWQwtMDsDLZHmiOl+x7jTaiK7eCslpiXCzISz02Bp04BeTwwEudoEkBzGT\nljijWS6EfkIGMk4jMGhtKcBaCPPzdMQtlGC0E+U1vrKNXtu2gEcIL4aMMMJxbOSV\n5qwXBnisjvfrOWgzdHimbThtHBSc6UbGvNczlVrheQMt4UmNgsRxzdnWmuTfap/s\n5264gKZNAwJ6hjEd9HTJQb+jKRWMP4XAcxr2QFW/HQKBgQD4ThvySNBIBW8KZ8A9\niUs0eIy8oZU1PBE0h8UhhiFDS2iYn1DIMeSbe/bZBRe8O/7oTOsx+Wb/IW1qFlws\nVQvVUpz4R+Fou4iYPomx+WzyNuZ7DHmyzjCeir4kbswcbDozZeOtFHEx7LSOpUnB\nwQg4LJhFEwqOxMHGnGD8wnOGJQKBgQDtGNp3zQeAfau+d8EJP0Gi2vF/V6raEhgw\nk7o/bZLNhS5JQKdk56Tjtg64hUyWSkG4ZP50T3GsLJ41C/o1JQksS3EAkEqClwUP\n1awuc+72PzmCOrnSaBN+V1jmb+Ppie3T3ZHuW3L+Unxk3WPR0PR0ltITa245+CVg\nCekauWMeTwKBgAn+quVPxQKBJX0XvAc+FYbhK1kUb/sald61cFvvGDurN2SdVRUZ\n3QfdL4yAxfnPuG0FW5pBXcH7SHoyuDcYnUdS8fqUeiBLHC50pfpB/f6p8xEU6Xkn\nD5HyJ8EzrIegW59iBI4c+ol167aqNJPV/0yzjtWI9K3Wga5K8SR7d0b5AoGBAMvY\npGx/8MU+RxzZJTRoGGyGRT+xBgm7qOSK/oRuFttwd90vIzyUFKZa7skigjhs25hH\n7KXfb+IR8mu1QofSsdJNgnhzljw0z3tPwFun/Xnl3fHjv8PxC2GCg8KLzK4Lklin\nlUITigiyrpSh66KHPsXGrhNYOErK2Id7vdjmLxvtAoGBAN8PyKgl9jA74J/w8U4j\nZL5HHzAZdPba2dzH1SKqgqfeASR6kubJYS3tnZyw6l+LuJYdW1ofOe/T+OF1rvIz\n4XeyiWIgmp69pJ6tFa3+0LaaPKC88jWOZarE9IzPIwRslU7Q691u9Tm8UcJ7Rcpo\n+OTHxk30IR3Jc0lE0drIH1WG\n-----END PRIVATE KEY-----\n",
+  "client_email": "bluedabba@lyrical-edition-403712.iam.gserviceaccount.com",
+  "client_id": "100371832890457556752",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bluedabba%40lyrical-edition-403712.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
