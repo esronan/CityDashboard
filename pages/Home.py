@@ -127,7 +127,7 @@ if st.checkbox('Show processed data'):
 # Database connection details
 db_user = "teststreamlitinstancebluedabba"
 db_pass = "GOmooncow123!"
-db_name = "your_database_name"
+#db_name = "your_database_name"
 db_instance = "lyrical-edition-403712:europe-west2:teststreamlitinstancebluedabba"
 
 connector = Connector() 
@@ -153,7 +153,7 @@ def init_connection_engine():
             "pymysql",
             user=db_user,
             password=db_pass,
-            db=db_name,
+            #db=db_name,
             ip_type=IPTypes.PUBLIC,
         )
         return conn
@@ -164,6 +164,7 @@ def init_connection_engine():
 engine = init_connection_engine()
 
 # Upload DataFrame to SQL
+print(merged_data)
 merged_data.to_sql('processed data', con=engine, if_exists='replace', index=False)
 
 ##### DATA EXPLORATION #####
@@ -230,6 +231,10 @@ df = df[df["date"] == year]
 df = df[df["area"] != "city of london"]
 #st.write(df)
 st.map(df, size=type_grad)
+
+
+
+
 
 ##### REGRESSION MODEL ######
 
