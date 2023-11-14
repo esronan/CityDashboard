@@ -4,7 +4,6 @@ import numpy as np
 import statsmodels.api as sm
 import seaborn as sns
 import matplotlib.pyplot as plt
-#from streamlit_pandas_profiling import st_profile_report
 import requests
 import re
 from geopy.distance import geodesic
@@ -12,6 +11,10 @@ import pandas as pd
 from sqlalchemy import create_engine, inspect
 from google.cloud.sql.connector import Connector, IPTypes
 import pymysql
+import sys
+
+sys.path.append('../data')
+from keys import db_instance, db_user, db_pass, db_name
 
 @st.cache_data
 def load_data(path):
@@ -127,9 +130,6 @@ def multiselect_widget(data, col, var_name):
     vals = list(data[col].unique()) + [list(data[col].unique())]
     chosen_vals = st.multiselect(f"Pick {var_name} to compare", vals)
     filtered_data = data[data[col].isin(chosen_vals)]
-<<<<<<< Updated upstream
-    return filtered_data
-=======
     return filtered_data
 
 def load_processed_data():
@@ -216,4 +216,3 @@ def get_minmax(data, col, year, agg):
         minval = data[mask][col].argmax()
         area = data.iloc[minval]["area"]
     return area
->>>>>>> Stashed changes
