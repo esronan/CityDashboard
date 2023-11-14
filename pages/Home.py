@@ -14,6 +14,12 @@ from google.cloud.sql.connector import Connector, IPTypes
 import pymysql
 import os
 import sys
+<<<<<<< Updated upstream
+=======
+import plotly.express as px
+
+####
+>>>>>>> Stashed changes
 sys.path.append('../data')
 sys.path.append('../utils')
 from keys import db_instance, db_user, db_pass, db_name
@@ -24,8 +30,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Users/Administrator/Documents
 st.set_option('deprecation.showPyplotGlobalUse', False) #Turn off deprecation warnings for heatmap visualisation
 
 st.set_page_config(layout="wide")
-
-st.title('London housing data')
+#
+st.title('London Housing Dashboard')
 
 #initiate connector
 connector = Connector()

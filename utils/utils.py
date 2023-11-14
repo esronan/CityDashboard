@@ -124,8 +124,96 @@ def get_boroughs(df):
 
 def multiselect_widget(data, col, var_name):
     #Widget for user to choose areas to compare
-    vals = data[col].unique + [data[col].unique]
-    st.write(vals)
+    vals = list(data[col].unique()) + [list(data[col].unique())]
     chosen_vals = st.multiselect(f"Pick {var_name} to compare", vals)
     filtered_data = data[data[col].isin(chosen_vals)]
+<<<<<<< Updated upstream
     return filtered_data
+=======
+    return filtered_data
+
+def load_processed_data():
+    try:
+        query = "SELECT * FROM processed_data"
+        merged_data = pd.read_sql(query, con=engine)
+        return merged_data
+    except:
+       # st.write("Processing data...")
+
+        ##### LOAD DATA ######
+
+        yearly_data_url = "C:/Users/Administrator/Documents/GitHub/StreamlitApp/data/housing_in_london_yearly_variables.csv"
+        monthly_data_url = "C:/Users/Administrator/Documents/GitHub/StreamlitApp/data/housing_in_london_monthly_variables.csv"
+        
+        #st.subheader("Loading Data")
+        #data_load_state = st.text('Loading data...')
+        data = load_data(yearly_data_url)
+        data_monthly = load_data(monthly_data_url)
+       # data_load_state.text("Data loaded!")
+
+        #scrape borough coords
+        url = "https://en.wikipedia.org/wiki/List_of_London_boroughs" 
+        df = get_borough_coords(url)
+
+        ##### PROCESS DATA ######
+
+        data = process_yearly_data(data)
+        data_monthly = agg_monthly_data(data_monthly)
+
+
+        #GEO DATA
+
+        #Convert latitude and longitude to positive/negative decimals
+        df['latitude'] = df['latitude'].apply(convert_coords, type = "lat")
+        df['longitude'] = df['longitude'].apply(convert_coords, type="lon")
+
+        #Get distance to centre
+        df["distance_to_centre"] = df.apply(lambda row: dist_centre(row['latitude'], row['longitude']), axis=1)
+        df["distance_to_centre"] = df["distance_to_centre"].astype(float)
+        df = df[["Borough", "latitude", "longitude", "distance_to_centre"]]
+
+        #Format borough names
+        df = format_borough_names(df)
+
+        #join
+        merged_data = data.merge(data_monthly, on=['area', 'date'], how='left')
+        merged_data = merged_data.merge(df, on="area", how='left')
+
+        #Create income_price ratio
+        merged_data["income_price_ratio"] = merged_data["average_price"]/merged_data["mean_salary"]
+
+
+        ##### UPLOAD PROCESSED DATA TO SQL INSTANCE #####
+
+        #initiate connector#
+        connector = Connector() 
+
+        #initiate connection engine
+        engine = init_connection_engine(db_instance=db_instance, db_user=db_user, db_pass=db_pass, db_name=db_name, connector_instance=connector)
+
+        #save to database
+        try:
+            merged_data.to_sql('processed_data', con=engine, if_exists='replace', index=False)
+        except:
+            print("SQL instance unavailable")
+
+        #save as CSV
+        merged_data.to_csv("../data/processed_data.csv")
+        return merged_data
+
+def get_var(data, col, area, year):
+    mask = (data["area"]== area) & (data["date"] == year)
+    val = data[mask][col].iloc[0]
+    return val
+
+def get_minmax(data, col, year, agg):
+    data = get_boroughs(data)
+    mask = (data["date"] == year)
+    if agg == "min":
+        minval = data[mask][col].argmin()
+        area = data.iloc[minval]["area"]
+    elif agg == "max":
+        minval = data[mask][col].argmax()
+        area = data.iloc[minval]["area"]
+    return area
+>>>>>>> Stashed changes
