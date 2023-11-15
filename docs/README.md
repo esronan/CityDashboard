@@ -13,9 +13,10 @@ The intention is to build the app to cover a greater range of variables, include
 
 # Images
 ### Home page
-![Home page](../images/image.png)
+![Home](../images/image-1.png)
 ### Airbnb listings page
-![Airbnb page](../images/image2.png)
+![Airbnb listings](../images/image-5.png)
 ### Data explorer page
-![Data explorer](../images/image3.png)
-![Data explorer 2](../images/image4.png)
+![Data explorer](../images/image-2.png)
+![Data explorer 2](../images/image-3.png)
+![Data explorer 3](../images/image-4.png)
